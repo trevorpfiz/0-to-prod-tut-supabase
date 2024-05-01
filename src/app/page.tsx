@@ -1,3 +1,7 @@
+import { db } from "~/server/db";
+
+export const dynamic = "force-dynamic";
+
 const mockUrls = [
   "https://wpcbdblradsxjxirufbv.supabase.co/storage/v1/object/sign/mock/spark-bang.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJtb2NrL3NwYXJrLWJhbmcucG5nIiwiaWF0IjoxNzE0NTgyODk2LCJleHAiOjE3MTUxODc2OTZ9.bCksUZGc5TeyeUgsmbY12_-65GUvdCHNoCvk2s0J4bI&t=2024-05-01T17%3A01%3A36.470Z",
   "https://wpcbdblradsxjxirufbv.supabase.co/storage/v1/object/sign/mock/spark-bang-original.jpg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJtb2NrL3NwYXJrLWJhbmctb3JpZ2luYWwuanBnIiwiaWF0IjoxNzE0NTgyOTE1LCJleHAiOjE3MTUxODc3MTV9.PPwvfIS7cDNEJseeRwIGVDyQLxZ20JTbK2Dz0CQOYTo&t=2024-05-01T17%3A01%3A55.194Z",
@@ -10,15 +14,29 @@ const mockImages = mockUrls.map((url, index) => ({
   url,
 }));
 
-export default function HomePage() {
+export default async function HomePage() {
+  const posts = await db.query.posts.findMany();
+
+  console.log(posts);
+
+  const timesToRepeat = 3; // Number of times you want to repeat the images
   return (
     <main className="">
       <div className="flex flex-wrap gap-4">
-        {mockImages.map((image) => (
-          <div key={image.id} className="w-48">
-            <img src={image.url} alt="logo" />
+        {posts.map((post) => (
+          <div key={post.id} className="w-48">
+            {" "}
+            {post.name}{" "}
           </div>
         ))}
+
+        {Array.from({ length: timesToRepeat }).map((_, outerIndex) =>
+          mockImages.map((image) => (
+            <div key={`${outerIndex}-${image.id}`} className="w-48">
+              <img src={image.url} alt="logo" />
+            </div>
+          )),
+        )}
       </div>
     </main>
   );

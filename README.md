@@ -31,9 +31,9 @@ Follow our deployment guides for [Vercel](https://create.t3.gg/en/deployment/ver
 ## TODO
 
 - [x] Make it deploy (vercel)
-- [] Scaffold basic ui with mock data
-- [] Tidy up build process
-- [] Actually set up a database (Supabase)
+- [x] Scaffold basic ui with mock data
+- [x] Tidy up build process
+- [x] Actually set up a database (Supabase)
 - [] Attach database to UI
 - [] Add authentication (Supabase)
 - [] Add image upload (Supabase)
