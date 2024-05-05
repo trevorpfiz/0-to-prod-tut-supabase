@@ -45,3 +45,57 @@ Follow our deployment guides for [Vercel](https://create.t3.gg/en/deployment/ver
 - [] Analytics (posthog)
 - [] Delete button (w/ Server Actions)
 - [] Ratelimiting (upstash)
+
+## Supabase
+
+### 1. Setup foreign key from id to auth.users table in Supabase
+
+### 2. Trigger insert into profile table when a user is created
+
+```sql
+-- inserts a row into public.profile
+create function public.handle_new_user()
+returns trigger
+language plpgsql
+security definer set search_path = public
+as $$
+begin
+  insert into public.tut_profile (id, email, name, image)
+  values (
+    new.id,
+    new.raw_user_meta_data ->> 'email',
+    COALESCE(
+      new.raw_user_meta_data ->> 'name',
+      new.raw_user_meta_data ->> 'full_name',
+      new.raw_user_meta_data ->> 'user_name',
+      '[redacted]'
+    ),
+    new.raw_user_meta_data ->> 'avatar_url'
+  );
+  return new;
+end;
+$$;
+
+-- trigger the function every time a user is created
+create trigger on_auth_user_created
+  after insert on auth.users
+  for each row execute procedure public.handle_new_user();
+```
+
+#### Remove trigger
+
+```sql
+DROP TRIGGER on_auth_user_created ON auth.users;
+```
+
+### 3. Revoke public access (don't need RLS?) - <https://www.reddit.com/r/Supabase/comments/1avtplw/comment/krg9k7y/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button>
+
+```sql
+REVOKE USAGE ON SCHEMA public FROM anon, authenticated;
+REVOKE ALL ON ALL TABLES IN SCHEMA public FROM anon, authenticated;
+
+-- remove permissions for all non-postgres users to execute functions in public
+ALTER DEFAULT PRIVILEGES REVOKE EXECUTE ON FUNCTIONS FROM public;
+-- grant back permissions to the service_role
+GRANT ALL ON ALL FUNCTIONS IN SCHEMA public TO service_role;
+```

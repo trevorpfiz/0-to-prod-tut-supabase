@@ -2,7 +2,7 @@
 // https://orm.drizzle.team/docs/sql-schema-declaration
 
 import { relations, sql } from "drizzle-orm";
-import { index, serial, timestamp, varchar } from "drizzle-orm/pg-core";
+import { index, serial, timestamp, uuid, varchar } from "drizzle-orm/pg-core";
 import { createTable } from "~/server/db/schema/_table";
 import { profile } from "~/server/db/schema/profile";
 
@@ -13,7 +13,7 @@ export const image = createTable(
     name: varchar("name", { length: 256 }).notNull(),
     url: varchar("url", { length: 1024 }).notNull(),
 
-    profileId: varchar("profile_id", { length: 256 })
+    profileId: uuid("profile_id")
       .notNull()
       .references(() => profile.id),
 

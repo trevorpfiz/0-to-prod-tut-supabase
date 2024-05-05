@@ -1,22 +1,36 @@
 import { db } from "~/server/db";
+import { createClient } from "~/utils/supabase/server";
 
 export const dynamic = "force-dynamic";
 
-export default async function HomePage() {
+async function Images() {
   const images = await db.query.image.findMany({
     orderBy: (model, { desc }) => desc(model.id),
   });
 
   return (
-    <main className="">
-      <div className="flex flex-wrap gap-4">
-        {images.map((image) => (
-          <div key={image.id} className="flex w-48 flex-col">
-            <img src={image.url} alt="logo" />
-            <p>{image.name}</p>
-          </div>
-        ))}
-      </div>
+    <div className="flex flex-wrap gap-4">
+      {images.map((image) => (
+        <div key={image.id} className="flex w-48 flex-col">
+          <img src={image.url} alt="logo" />
+          <p>{image.name}</p>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+export default async function HomePage() {
+  const supabase = createClient();
+
+  const { data, error } = await supabase.auth.getUser();
+  const signedIn = data?.user && !error;
+
+  return (
+    <main className="flex flex-col gap-4 px-4 py-10 sm:px-6 lg:px-8">
+      <h1 className="text-3xl font-bold">Gallery</h1>
+
+      {signedIn ? <Images /> : <p className="text-sm">Sign in to view</p>}
     </main>
   );
 }
