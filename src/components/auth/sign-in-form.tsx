@@ -2,7 +2,6 @@
 
 import { useAction } from "next-safe-action/hooks";
 
-import type { SignInSchemaType } from "~/lib/validators";
 import { Button } from "~/components/ui/button";
 import {
   Form,
@@ -14,6 +13,7 @@ import {
   useForm,
 } from "~/components/ui/form";
 import { Input } from "~/components/ui/input";
+import type { SignInSchemaType } from "~/lib/validators";
 import { SignInSchema } from "~/lib/validators";
 
 import { FormError } from "~/components/auth/form-error";

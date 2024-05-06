@@ -14,7 +14,7 @@ export const Social = () => {
         formAction={signInWithGithub}
       >
         <Github className="h-5 w-5" />
-        <span className="text-muted-foreground font-medium">
+        <span className="font-medium text-muted-foreground">
           Continue with GitHub
         </span>
       </Button>

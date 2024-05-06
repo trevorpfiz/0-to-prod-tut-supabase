@@ -16,3 +16,12 @@ export const SignUpSchema = z.object({
   }),
 });
 export type SignUpSchemaType = z.infer<typeof SignUpSchema>;
+
+// upload
+export const UploadSchema = z.object({
+  filename: z.string().min(1, {
+    message: "Filename is required",
+  }),
+  url: z.string().url(),
+});
+export type UploadSchemaType = z.infer<typeof UploadSchema>;

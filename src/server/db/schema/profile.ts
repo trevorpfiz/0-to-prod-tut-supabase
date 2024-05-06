@@ -1,12 +1,15 @@
 import { relations } from "drizzle-orm";
 import { uuid, varchar } from "drizzle-orm/pg-core";
 
-import { image } from "./image";
 import { createTable } from "~/server/db/schema/_table";
+import { users } from "~/server/db/schema/auth";
+import { image } from "./image";
 
 export const profile = createTable("profile", {
   // Matches id from auth.users table in Supabase
-  id: uuid("id").primaryKey(),
+  id: uuid("id")
+    .primaryKey()
+    .references(() => users.id, { onDelete: "cascade" }),
   email: varchar("email", { length: 256 }),
   name: varchar("name", { length: 256 }).notNull(),
   image: varchar("image", { length: 256 }),

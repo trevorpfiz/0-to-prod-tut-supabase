@@ -1,3 +1,4 @@
+import MillionLint from "@million/lint";
 /**
  * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation. This is especially useful
  * for Docker builds.
@@ -7,7 +8,6 @@ await import("./src/env.js");
 /** @type {import("next").NextConfig} */
 const config = {
   reactStrictMode: true,
-
   // Allow optimizing avatar images from GitHub
   images: {
     remotePatterns: [
@@ -17,10 +17,15 @@ const config = {
       },
     ],
   },
-
   /** We already do linting and typechecking as separate tasks in CI */
-  eslint: { ignoreDuringBuilds: true },
-  typescript: { ignoreBuildErrors: true },
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
+  typescript: {
+    ignoreBuildErrors: true,
+  },
 };
 
-export default config;
+export default MillionLint.next({
+  rsc: true,
+})(config);

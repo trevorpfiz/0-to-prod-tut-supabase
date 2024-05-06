@@ -1,6 +1,3 @@
-// Example model schema from the Drizzle docs
-// https://orm.drizzle.team/docs/sql-schema-declaration
-
 import { relations, sql } from "drizzle-orm";
 import { index, serial, timestamp, uuid, varchar } from "drizzle-orm/pg-core";
 import { createTable } from "~/server/db/schema/_table";

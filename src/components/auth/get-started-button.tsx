@@ -11,7 +11,6 @@ interface GetStartedButtonProps {
 export const GetStartedButton = ({
   children,
   mode = "redirect",
-  asChild,
 }: GetStartedButtonProps) => {
   const router = useRouter();
 
@@ -19,12 +18,23 @@ export const GetStartedButton = ({
     router.push("/auth/signup");
   };
 
+  const onKeyDown = (event: React.KeyboardEvent) => {
+    if (event.key === "Enter" || event.key === "Space") {
+      onClick();
+      event.preventDefault();
+    }
+  };
+
   if (mode === "modal") {
     return <span>TODO: Implement Modal</span>;
   }
 
   return (
-    <span onClick={onClick} className="cursor-pointer">
+    <span
+      onClick={onClick}
+      onKeyDown={onKeyDown}
+      className="cursor-pointer text-ellipsis text-blue-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+    >
       {children}
     </span>
   );

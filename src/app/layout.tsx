@@ -4,9 +4,9 @@ import type { Viewport } from "next";
 import { Inter } from "next/font/google";
 
 import { TopNav } from "~/app/_components/top-nav";
-import { cn } from "~/lib/utils";
-import { ThemeProvider } from "~/components/ui/theme";
 import { Toaster } from "~/components/ui/sonner";
+import { ThemeProvider } from "~/components/ui/theme";
+import { cn } from "~/lib/utils";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -35,7 +35,7 @@ export default function RootLayout({
     <html lang="en">
       <body
         className={cn(
-          "bg-background min-h-screen font-sans antialiased",
+          "min-h-screen bg-background font-sans antialiased",
           inter.variable,
         )}
       >

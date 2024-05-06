@@ -1,6 +1,6 @@
-import postgres from "postgres";
 import { drizzle } from "drizzle-orm/postgres-js";
 import { migrate } from "drizzle-orm/postgres-js/migrator";
+import postgres from "postgres";
 
 const runMigrate = async () => {
   if (!process.env.DATABASE_URL) {
@@ -11,15 +11,11 @@ const runMigrate = async () => {
   const sql = postgres(connectionString, { prepare: false });
   const db = drizzle(sql);
 
-  console.log("⏳ Running migrations...");
-
-  const start = Date.now();
+  const _start = Date.now();
 
   await migrate(db, { migrationsFolder: "src/server/db/migrations" });
 
-  const end = Date.now();
-
-  console.log("✅ Migrations completed in", end - start, "ms");
+  const _end = Date.now();
 
   process.exit(0);
 };

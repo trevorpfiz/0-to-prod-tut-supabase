@@ -27,8 +27,8 @@ export default async function HomePage() {
   const signedIn = data?.user && !error;
 
   return (
-    <main className="flex flex-col gap-4 px-4 py-10 sm:px-6 lg:px-8">
-      <h1 className="text-3xl font-bold">Gallery</h1>
+    <main className="flex flex-col gap-4 px-4 py-10 lg:px-8 sm:px-6">
+      <h1 className="font-bold text-3xl">Gallery</h1>
 
       {signedIn ? <Images /> : <p className="text-sm">Sign in to view</p>}
     </main>

@@ -1,23 +1,23 @@
+import { zodResolver } from "@hookform/resolvers/zod";
 import type * as LabelPrimitive from "@radix-ui/react-label";
+import { Slot } from "@radix-ui/react-slot";
+import * as React from "react";
 import type {
   ControllerProps,
   FieldPath,
   FieldValues,
   UseFormProps,
 } from "react-hook-form";
-import type { ZodType } from "zod";
-import * as React from "react";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Slot } from "@radix-ui/react-slot";
 import {
-  useForm as __useForm,
   Controller,
   FormProvider,
+  useForm as __useForm,
   useFormContext,
 } from "react-hook-form";
+import type { ZodType } from "zod";
 
-import { cn } from "~/lib/utils";
 import { Label } from "~/components/ui/label";
+import { cn } from "~/lib/utils";
 
 const useForm = <TSchema extends ZodType>(
   props: Omit<UseFormProps<TSchema["_input"]>, "resolver"> & {
@@ -175,7 +175,7 @@ const FormMessage = React.forwardRef<
     <p
       ref={ref}
       id={formMessageId}
-      className={cn("text-destructive text-sm font-medium", className)}
+      className={cn("font-medium text-destructive text-sm", className)}
       {...props}
     >
       {body}

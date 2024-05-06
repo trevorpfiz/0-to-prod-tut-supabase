@@ -3,8 +3,8 @@
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 
-import { SignInSchema, SignUpSchema } from "~/lib/validators";
 import { action } from "~/lib/safe-action";
+import { SignInSchema, SignUpSchema } from "~/lib/validators";
 import { createClient } from "~/utils/supabase/server";
 
 export const signInWithPassword = action(
@@ -17,7 +17,9 @@ export const signInWithPassword = action(
       password,
     });
 
-    if (error) throw error;
+    if (error) {
+      throw error;
+    }
     return data.user;
   },
 );
@@ -34,7 +36,9 @@ export const signUp = action(SignUpSchema, async ({ email, password }) => {
     },
   });
 
-  if (error) throw error;
+  if (error) {
+    throw error;
+  }
   return data.user;
 });
 
@@ -47,7 +51,9 @@ export const signInWithGithub = async () => {
     options: { redirectTo: `${origin}/auth/callback` },
   });
 
-  if (res.data.url) redirect(res.data.url);
+  if (res.data.url) {
+    redirect(res.data.url);
+  }
   throw res.error;
 };
 
@@ -60,7 +66,9 @@ export const signInWithGoogle = async () => {
     options: { redirectTo: `${origin}/auth/callback` },
   });
 
-  if (res.data.url) redirect(res.data.url);
+  if (res.data.url) {
+    redirect(res.data.url);
+  }
   throw res.error;
 };
 

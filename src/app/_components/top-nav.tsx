@@ -10,8 +10,16 @@ async function TopNav() {
 
   return (
     <nav className="flex w-full items-center justify-between border-b p-4">
-      <h1 className="text-xl font-semibold">Gallery</h1>
+      <h1 className="font-semibold text-xl">Gallery</h1>
 
+      <div className="flex items-center gap-4">
+        <Link
+          className="font-medium text-sm underline-offset-4 hover:underline"
+          href="/upload"
+        >
+          Upload
+        </Link>
+      </div>
       {signedIn ? (
         <div className="flex items-center">
           <SignOutButton />
@@ -19,7 +27,7 @@ async function TopNav() {
       ) : (
         <div className="flex items-center">
           <Link
-            className="text-sm font-medium underline-offset-4 hover:underline"
+            className="font-medium text-sm underline-offset-4 hover:underline"
             href="/signin"
           >
             Sign In
