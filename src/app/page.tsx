@@ -4,6 +4,14 @@ import { createClient } from "~/utils/supabase/server";
 export const dynamic = "force-dynamic";
 
 async function Images() {
+  const supabase = createClient();
+
+  const { data } = supabase.storage
+    .from("mock")
+    .getPublicUrl("e2dfd7d1-0bcf-449d-9732-5d3844b4d5ba-spark-bang.png");
+
+  console.log(data);
+
   const images = await db.query.image.findMany({
     orderBy: (model, { desc }) => desc(model.id),
   });

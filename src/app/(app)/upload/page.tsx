@@ -1,15 +1,11 @@
 "use client";
 
-import { useAction } from "next-safe-action/hooks";
 import { useState } from "react";
 import { env } from "~/env";
-import { addImage } from "~/lib/actions/upload";
 
 export default function Page() {
   const [file, setFile] = useState<File | null>(null);
   const [uploading, setUploading] = useState(false);
-
-  const { execute, result } = useAction(addImage);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -21,36 +17,23 @@ export default function Page() {
 
     setUploading(true);
 
-    const response = await fetch(`${env.NEXT_PUBLIC_BASE_URL}/api/upload`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ filename: file.name, contentType: file.type }),
-    });
+    const formData = new FormData();
+    formData.append("file", file);
 
-    if (response.ok) {
-      const { url, fields } = await response.json();
-
-      const formData = new FormData();
-      Object.entries(fields).forEach(([key, value]) => {
-        formData.append(key, value as string);
-      });
-      formData.append("file", file);
-
-      const uploadResponse = await fetch(url, {
+    const uploadResponse = await fetch(
+      `${env.NEXT_PUBLIC_BASE_URL}/api/upload`,
+      {
         method: "POST",
         body: formData,
-      });
+      },
+    );
 
-      if (uploadResponse.ok) {
-        execute({ filename: file.name, url: url });
-      } else {
-        console.error("S3 Upload Error:", uploadResponse);
-        alert("Upload failed.");
-      }
+    if (uploadResponse.ok) {
+      const { url, filename } = await uploadResponse.json();
+      alert(`File uploaded successfully: ${url}, ${filename}`);
     } else {
-      alert("Failed to get pre-signed URL.");
+      console.error("Upload Error:", await uploadResponse.text());
+      alert("Upload failed.");
     }
 
     setUploading(false);
@@ -75,7 +58,6 @@ export default function Page() {
           Upload
         </button>
       </form>
-      <p>{result?.data?.message}</p>
     </main>
   );
 }
