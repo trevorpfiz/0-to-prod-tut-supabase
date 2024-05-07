@@ -1,14 +1,10 @@
-import { eq } from "drizzle-orm";
-import { db, schema } from "~/server/db";
-import { createClient } from "~/utils/supabase/server";
+import { getUserImages } from "~/lib/api/queries";
+import { getUserServer } from "~/utils/auth/get-user-server";
 
 export const dynamic = "force-dynamic";
 
 async function Images({ userId }: { userId: string }) {
-  const images = await db.query.image.findMany({
-    orderBy: (model, { desc }) => desc(model.id),
-    where: eq(schema.image.profileId, userId),
-  });
+  const images = await getUserImages(userId);
 
   return (
     <div className="flex flex-wrap gap-4">
@@ -23,20 +19,14 @@ async function Images({ userId }: { userId: string }) {
 }
 
 export default async function HomePage() {
-  const supabase = createClient();
-
-  const { data, error } = await supabase.auth.getUser();
-  const signedIn = data?.user && !error;
+  const user = await getUserServer();
+  const signedIn = user.id;
 
   return (
     <main className="flex flex-col gap-4 px-4 py-10 lg:px-8 sm:px-6">
       <h1 className="font-bold text-3xl">Gallery</h1>
 
-      {signedIn ? (
-        <Images userId={data.user.id} />
-      ) : (
-        <p>Sign in to view images</p>
-      )}
+      {signedIn ? <Images userId={user.id} /> : <p>Sign in to view images</p>}
     </main>
   );
 }

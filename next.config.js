@@ -7,6 +7,9 @@ await import("./src/env.js");
 /** @type {import("next").NextConfig} */
 const config = {
   reactStrictMode: true,
+  experimental: {
+    taint: true,
+  },
   // Allow optimizing avatar images from GitHub
   images: {
     remotePatterns: [

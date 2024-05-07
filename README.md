@@ -37,7 +37,7 @@ Follow our deployment guides for [Vercel](https://create.t3.gg/en/deployment/ver
 - [x] Attach database to UI
 - [x] Add authentication (Supabase)
 - [x] Add image upload (Supabase)
-- [] "taint" (server-only)
+- [x] "taint" (server-only)
 - [] Use Next/Image component
 - [] Error management (Sentry)
 - [] Routing/image page (parallel route)
