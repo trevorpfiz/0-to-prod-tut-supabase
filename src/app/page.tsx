@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { getUserImages } from "~/lib/api/queries";
 import { getUserServer } from "~/utils/auth/get-user-server";
 
@@ -7,10 +8,10 @@ async function Images({ userId }: { userId: string }) {
   const images = await getUserImages(userId);
 
   return (
-    <div className="flex flex-wrap gap-4">
+    <div className="flex flex-wrap justify-center gap-4">
       {images.map((image) => (
         <div key={image.id} className="flex w-48 flex-col">
-          <img src={image.url} alt="logo" />
+          <Image src={image.url} alt="logo" width={192} height={192} />
           <p>{image.name}</p>
         </div>
       ))}

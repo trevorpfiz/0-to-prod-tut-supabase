@@ -9,7 +9,7 @@
     "db:migrate": "tsx src/server/db/migrate.ts",
     "db:push": "drizzle-kit push:pg",
     "db:studio": "drizzle-kit studio",
-    "dev": "next dev --turbo",
+    "dev": "next dev",
     "lint": "next lint",
     "start": "next start",
     "fmt": "pnpm biome check . --apply"
@@ -24,6 +24,7 @@
     "@radix-ui/react-label": "^2.0.2",
     "@radix-ui/react-select": "^2.0.0",
     "@radix-ui/react-slot": "^1.0.2",
+    "@sentry/nextjs": "^7.105.0",
     "@supabase/ssr": "^0.3.0",
     "@supabase/supabase-js": "^2.43.0",
     "@t3-oss/env-nextjs": "^0.10.1",
